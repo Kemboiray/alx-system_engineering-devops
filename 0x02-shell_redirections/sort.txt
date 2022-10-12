@@ -1,53 +1,83 @@
-Usage: tr [OPTION]... SET1 [SET2]
-Translate, squeeze, and/or delete characters from standard input,
-writing to standard output.
+PASSWD(5)        File Formats and Conversions        PASSWD(5)
 
-  -c, -C, --complement    use the complement of SET1
-  -d, --delete            delete characters in SET1, do not translate
-  -s, --squeeze-repeats   replace each sequence of a repeated character
-                            that is listed in the last specified SET,
-                            with a single occurrence of that character
-  -t, --truncate-set1     first truncate SET1 to length of SET2
-      --help     display this help and exit
-      --version  output version information and exit
+NAME
+       passwd - the password file
 
-SETs are specified as strings of characters.  Most represent themselves.
-Interpreted sequences are:
+DESCRIPTION
+       /etc/passwd contains one line for each user account,
+       with seven fields delimited by colons (“:”). These
+       fields are:
 
-  \NNN            character with octal value NNN (1 to 3 octal digits)
-  \\              backslash
-  \a              audible BEL
-  \b              backspace
-  \f              form feed
-  \n              new line
-  \r              return
-  \t              horizontal tab
-  \v              vertical tab
-  CHAR1-CHAR2     all characters from CHAR1 to CHAR2 in ascending order
-  [CHAR*]         in SET2, copies of CHAR until length of SET1
-  [CHAR*REPEAT]   REPEAT copies of CHAR, REPEAT octal if starting with 0
-  [:alnum:]       all letters and digits
-  [:alpha:]       all letters
-  [:blank:]       all horizontal whitespace
-  [:cntrl:]       all control characters
-  [:digit:]       all digits
-  [:graph:]       all printable characters, not including space
-  [:lower:]       all lower case letters
-  [:print:]       all printable characters, including space
-  [:punct:]       all punctuation characters
-  [:space:]       all horizontal or vertical whitespace
-  [:upper:]       all upper case letters
-  [:xdigit:]      all hexadecimal digits
-  [=CHAR=]        all characters which are equivalent to CHAR
+       •   login name
 
-Translation occurs if -d is not given and both SET1 and SET2 appear.
--t may be used only when translating.  SET2 is extended to length of
-SET1 by repeating its last character as necessary.  Excess characters
-of SET2 are ignored.  Only [:lower:] and [:upper:] are guaranteed to
-expand in ascending order; used in SET2 while translating, they may
-only be used in pairs to specify case conversion.  -s uses the last
-specified SET, and occurs after translation or deletion.
+       •   optional encrypted password
 
-GNU coreutils online help: <https://www.gnu.org/software/coreutils/>
-Full documentation at: <https://www.gnu.org/software/coreutils/tr>
-or available locally via: info '(coreutils) tr invocation'
+       •   numerical user ID
+
+       •   numerical group ID
+
+       •   user name or comment field
+
+       •   user home directory
+
+       •   optional user command interpreter
+
+       If the password field is a lower-case “x”, then the
+       encrypted password is actually stored in the shadow(5)
+       file instead; there must be a corresponding line in the
+       /etc/shadow file, or else the user account is invalid.
+
+       The encrypted password field may be empty, in which
+       case no password is required to authenticate as the
+       specified login name. However, some applications which
+       read the /etc/passwd file may decide not to permit any
+       access at all if the password field is blank.
+
+       A password field which starts with an exclamation mark
+       means that the password is locked. The remaining
+       characters on the line represent the password field
+       before the password was locked.
+
+       Refer to crypt(3) for details on how this string is
+       interpreted.
+
+       If the password field contains some string that is not
+       a valid result of crypt(3), for instance ! or *, the
+       user will not be able to use a unix password to log in
+       (but the user may log in the system by other means).
+
+       The comment field is used by various system utilities,
+       such as finger(1).
+
+       The home directory field provides the name of the
+       initial working directory. The login program uses this
+       information to set the value of the $HOME environmental
+       variable.
+
+       The command interpreter field provides the name of the
+       user's command language interpreter, or the name of the
+       initial program to execute. The login program uses this
+       information to set the value of the $SHELL
+       environmental variable. If this field is empty, it
+       defaults to the value /bin/sh.
+
+FILES
+       /etc/passwd
+           User account information.
+
+       /etc/shadow
+           optional encrypted password file
+
+       /etc/passwd-
+           Backup file for /etc/passwd.
+
+           Note that this file is used by the tools of the
+           shadow toolsuite, but not by all user and password
+           management tools.
+
+SEE ALSO
+       crypt(3), getent(1), getpwnam(3), login(1), passwd(1),
+       pwck(8), pwconv(8), pwunconv(8), shadow(5), su(1),
+       sulogin(8).
+
+shadow-utils 4.8.1        07/14/2021                 PASSWD(5)
