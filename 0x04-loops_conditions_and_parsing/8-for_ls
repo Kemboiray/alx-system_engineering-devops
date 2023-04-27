@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Prints contents of directory, stripping the prefix number and hypen
+list=$(ls)
+for file in $list
+do
+	find "$file" | sed "s/^[0-9]*-//"
+done
