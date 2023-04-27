@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Uses ``case`` to conditiinally print statemwnts
+i=0
+while [ $i -lt 20 ]
+do
+	case $i in
+		3) echo -e "$((i+1))\nbad luck from China" ;;
+		8) echo -e "$((i+1))\nbad luck from Japan" ;;
+		16) echo -e "$((i+1))\nbad luck from Italy" ;;
+		*) echo "$((i+1))" ;;
+	esac
+	i=$((i+1))
+done
