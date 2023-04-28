@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# This script prints numbers, fizz, buzz and fizzbuzz
+
+for ((i=1; i<=100; i++))
+do
+	if [ $((i % 5)) -eq 0 ] && [ $((i % 3)) -eq 0 ]
+	then
+		echo "FizzBuzz"
+	elif [ $((i % 5)) -eq 0 ] && [ $((i % 3)) -ne 0 ]
+	then
+		echo "Buzz"
+	elif [ $((i % 5)) -ne 0 ] && [ $((i % 3)) -eq 0 ]
+	then
+		echo "Fizz"
+	else
+		echo "$i"
+	fi
+done
