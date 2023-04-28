@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Extracts usernames, ids and paths from /etc/passwd
+
+file=$(cat /etc/passwd)
+
+while read -r line
+do
+	toprint=$(echo "$line" | cut -d: -f1,3,6)
+	echo "$toprint"
+done <<< "$file"
