@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 # Prints string indefinitely
 
+sigterm() {
+    echo "I am invincible!!!"
+}
+
+trap sigterm SIGTERM
+
 while true
 do
 	echo "To infinity and beyond"
