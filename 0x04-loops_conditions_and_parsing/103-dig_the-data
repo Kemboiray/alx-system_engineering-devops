@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 # Sort parsed data from an apache log by number of occurences
 
-awk '{print $1 " " $9}' apache-access.log | uniq -c | sort --reverse
+awk '{print $1 " " $9}' apache-access.log | sort | uniq -c | sort -rn
 
