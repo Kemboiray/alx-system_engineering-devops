@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # Write a story based on the contents of `/etc/passwd/`
 
 file="/etc/passwd"
