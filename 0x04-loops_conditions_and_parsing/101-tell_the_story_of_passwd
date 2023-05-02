@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# Write a story based on the contents of `/etc/passwd/`
+
+file="/etc/passwd"
+
+while IFS=: read -r usr_name password usr_id grp_id more_info home_dir shell
+do
+	echo "The user $usr_name is part of the $grp_id gang, lives in $home_dir and rides $shell. $usr_id's place is protected by the passcode $password, more info about the user here: $more_info"
+done < "$file"
