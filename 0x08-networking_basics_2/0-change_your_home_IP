@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Configure /etc/hosts
+cp /etc/hosts hosts.new
+
+# Remove lines containing 'localhost' or 'facebook'
+sed -i '/localhost/d' hosts.new
+sed -i '/facebook/d' hosts.new
+
+# Add new entries to the hosts file
+echo -e "127.0.0.2\tlocalhost" | tee -a hosts.new
+echo -e "8.8.8.8\tfacebook.com" | tee -a hosts.new
+
+# Overwrite the /etc/hosts file
+cp -f hosts.new /etc/hosts
