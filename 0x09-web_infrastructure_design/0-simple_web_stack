@@ -1,1 +1,34 @@
 https://drive.google.com/file/d/1DqKjDGgz_DNk0dj9U7T2csrZaQk5lfo4/view?usp=sharing
+
+Description:
+
+The term server refers to a computer device that provides some functionalities to
+other computing devices. It may be applied to the software used to provide the service
+or the hardware hosting such software.
+
+The domain name is a human friendly way of referring to a particular server in a computer
+network. A human provides textual input which is resolved to the server's IP address through
+the domain name system.
+
+In ``www.foobar.com``, ``www`` is an ``A` record. It maps the host name to an IPv4 address.
+
+A web server stores static files which it provides in response to client requests. If it fails
+to find requested files, it forwards the request to the application server which may generate
+the file(s) dynamically. If a dynamic file is also not found, an appropriate error message is
+issued to the client.
+
+An application server generates dynamic files in response to requests based on the logic
+in its application files and in conjunction with a database in and from which information is
+respectively stored and retrieved.
+
+The database stores and manages information used in the running of the web application. The
+information includes such things as user names, emails and other identifying information.
+
+The server communicates with the client through the internet using the TCP/IP protocol.
+
+A major issue with this one-server infrastracture is the server being a single point of failure.
+If the server goes down for any reason such as power failure or application errors, the whole
+infrastructure fails. Service will also be disrupted if the server loses connection to the
+network. These issues may be mitigated by implementing server redundancy measures such as adding
+more servers with high availabiity load balancing, adding backup power supply and backup internet
+service providers.
