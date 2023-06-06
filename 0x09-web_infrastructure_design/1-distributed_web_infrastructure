@@ -1,1 +1,21 @@
-https://drive.google.com/file/d/1BJs7rSpcRFd7-5IyLA6XEHpuKwUQ4SVq/view?usp=share_link
+https://drive.google.com/file/d/1BfJHsR_WZDkzBbz3cetZbwcaYaN7LqGB/view?usp=drive_link
+
+Two servers and a load balancer have been added to the design to increase the infrastructure's
+capacity and provide high availability.
+
+The multiple web and application servers are configured with the same files so that they all
+serve the same content when requested. A load balancer is added between the client and the
+servers to intercept and distribute traffic from the client(s) among the servers. For this
+implementation, the load balancer uses a weighted round robin distribution algorithm: a certain
+number of successive requests are passed to one server based on the weight assigned to it; the
+next set of requests are passed to the next server, and then the next until all servers are
+covered at which point the cycle repeats. The load balancer is enabling an active-active set up
+since all servers actively share the client load.
+
+A database primary-replica cluster works by having one main authoritative database (referred to
+variously as master, primary, leader etc) and one or more clones (aka slave, replica, follower etc).
+The primary database handles write (and sometimes even read) operations while the replica(s) are
+only involved in read operations. Whenever a write is done in the primary database, all replica
+databases are accordingly updated. In case the primary node goes down, one of the replica nodes is
+upgraded to primary status, taking up its role; once functionality in the downed server is restored,
+it rejoins the cluster as a replica.
