@@ -1,1 +1,24 @@
-https://drive.google.com/file/d/1BJs7rSpcRFd7-5IyLA6XEHpuKwUQ4SVq/view?usp=share_link
+https://drive.google.com/file/d/1h0b4VqVsFKp6giYhI_SrYX2B-IFkRd1g/view?usp=drive_link
+
+In this iteration, the design has been updated with firewalls on each server to filter incoming
+traffic. New Relic monitoring tool has also been installed in the server; it offers full-stack
+monitoring of all components of the server infrastructure, using dedicated agents for each
+monitoring task. The agents measure metrics, events, logs and traces in the web application. An
+SSL certificate has also been installed in the load balancer, which has been configured to serve
+traffic over https. https encrypts data being exchanged on the network so that only the client
+and the server can decipher it. The server QPS can be measured by using a log parsing tool or
+script to extract the relevant information from the logs, such as the timestamp and request URL
+for each incoming request.
+
+Terminating the SSL at the load balancer means that the traffic between the load balancer and
+the servers is unencrypted, leaving the data vulnerable to attackers with access to the internal
+server network. The load balancer is itself a SPOF since it is a target for attacks aimed at
+SSL/TLS vulnerabilities. Having only one MySQL database capable of accepting writes creates a
+bottleneck since one server can be overloaded when too many writes are being done. Additionally,
+since the replica servers are being updated asynchronously from the primary, data inconsistency
+may arise when a client attempts to read from a replica that has not yet received the latest
+updates from the primary server. Having servers with all the same components may result in resource
+contention as all components compete for CPU, memory and disk I/O in the same server. It also
+becomes difficult to independently scale components without unnecessarily scaling other componentd
+of the same server. Fault tolerance is also reduced since failure or outage of one component may
+impact the availability and functionality of other components in the same server.
