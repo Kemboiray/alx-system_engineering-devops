@@ -19,3 +19,9 @@ only involved in read operations. Whenever a write is done in the primary databa
 databases are accordingly updated. In case the primary node goes down, one of the replica nodes is
 upgraded to primary status, taking up its role; once functionality in the downed server is restored,
 it rejoins the cluster as a replica.
+
+In this design, the load balancer is a SPOF since it handles all incoming client traffic before
+distributing it to the servers. More load balancers may be added to act as back ups thus providing
+redundancy. The absence of a firewall and https leave the current infrastructure vulnerable to
+malicious attackers, and information being transmitted through the network accessible to anyone with
+the wherewithal to intercept it.
