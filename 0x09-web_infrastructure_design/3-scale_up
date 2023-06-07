@@ -1,0 +1,4 @@
+https://drive.google.com/file/d/1Y-9FpmgvFVa0ghhVFq_YdXjDutG24GNM/view?usp=sharing
+
+All the servers are now separate. The load balancer has also been made into a cluster
+of two to provide redundancy.
