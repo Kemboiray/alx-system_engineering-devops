@@ -1,6 +1,15 @@
 # Configure ssh client to use private key `~/.ssh/school`
 # and refuse password authentication
-exec { 'create_file':
-  command => 'echo "Host *\n    IdentityFile ~/.ssh/school\n    PasswordAuthentication no" > 2-ssh_config',
-  path    => '/bin:/usr/bin',
+class ssh_config {
+  file { '/etc/ssh/ssh_config':
+    ensure  => file,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    content => '
+Host *
+  IdentityFile ~/.ssh/school
+  PasswordAuthentication no
+',
+  }
 }
