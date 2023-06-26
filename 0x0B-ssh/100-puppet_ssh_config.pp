@@ -1,7 +1,6 @@
 # Configure ssh client to use private key `~/.ssh/school`
 # and refuse password authentication
-class ssh_config {
-  file { '/etc/ssh/ssh_config':
+file { '/etc/ssh/ssh_config':
     ensure  => file,
     owner   => 'root',
     group   => 'root',
@@ -11,5 +10,4 @@ Host *
   IdentityFile ~/.ssh/school
   PasswordAuthentication no
 ',
-  }
 }
