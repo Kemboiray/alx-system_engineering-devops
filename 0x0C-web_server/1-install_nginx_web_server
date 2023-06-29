@@ -5,4 +5,4 @@ apt update
 apt install nginx -y
 ufw allow "Nginx HTTP"
 echo "Hello World!" > /var/www/html/index.html
-service nginx reload
+service nginx start
