@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 # Configure nginx server with 301 redirection
 
+if ! [ -x "$(command -v nginx)" ]; then
+    apt update
+    apt install -y nginx
+fi
+echo "Hello World!" > /var/www/html/index.html
 
 if ! grep -qF "\tserver_name;\n\trewrite ^redirect_me$ https://www.youtube.com/watch?v=QH2-TGUlwu4/$1 permanent;" /etc/nginx/sites-available/default; then
     sudo sed -i 's|\tserver_name _;|\tserver_name _;\n\trewrite ^redirect_me$ https://www.youtube.com/watch?v=QH2-TGUlwu4/$1 permanent;|' /etc/nginx/sites-available/default
