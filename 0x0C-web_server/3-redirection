@@ -4,6 +4,7 @@
 if ! [ -x "$(command -v nginx)" ]; then
     apt update
     apt install -y nginx
+    service nginx start
 fi
 echo "Hello World!" > /var/www/html/index.html
 
