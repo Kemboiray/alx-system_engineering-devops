@@ -4,12 +4,9 @@
 if ! [ -x "$(command -v nginx)" ]; then
     apt update
     apt install -y nginx
-    service nginx start
 fi
 echo "Hello World!" > /var/www/html/index.html
 
-if ! grep -qF "    server_name;\n    rewrite ^redirect_me$ https://www.youtube.com/watch?v=QH2-TGUlwu4/$1 permanent;" /etc/nginx/sites-available/default; then
-    sudo sed -i 's|    server_name _;|    server_name _;\n    rewrite ^redirect_me$ https://www.youtube.com/watch?v=QH2-TGUlwu4/$1 permanent;|' /etc/nginx/sites-available/default
-fi
+sed -i "/server_name _;/a \    location /redirect_me {\n        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n    }" /etc/nginx/sites-available/default
 
 service nginx restart
