@@ -6,6 +6,7 @@ if ! [ -x "$(command -v nginx)" ]; then
   apt install -y nginx
 fi
 
+ufw allow "Nginx HTTP"
 echo "Hello World!" > /var/www/html/index.html
 sudo sed -i "/server_name _;/a \    location /redirect_me {\n        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n    }" /etc/nginx/sites-available/default
 
