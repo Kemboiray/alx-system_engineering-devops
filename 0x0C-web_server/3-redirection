@@ -7,10 +7,10 @@ if ! [ -x "$(command -v nginx)" ]; then
 fi
 
 ufw allow "Nginx HTTP"
-echo "Hello World!" > /var/www/html/index.html
+# echo "Hello World!" > /var/www/html/index.html
 service nginx start
 
-cp /etc/nginx/sites-available/default /etc/nginx/sites-available/temp
+cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default_back_up
 
 awk '
     {
