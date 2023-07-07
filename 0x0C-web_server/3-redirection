@@ -23,6 +23,6 @@ awk '
             print $0
         }
     }
-' /etc/nginx/sites-enabled/default > temp && mv temp /etc/nginx/sites-enabled/default
+' /etc/nginx/sites-available/default > temp && mv temp /etc/nginx/sites-available/default
 
 service nginx restart
