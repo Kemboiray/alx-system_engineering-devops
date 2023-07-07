@@ -1,13 +1,28 @@
 #!/usr/bin/env bash
-# Install and configure Nginx on the remote server
+# Configure nginx server with 301 redirection
 
 if ! [ -x "$(command -v nginx)" ]; then
-  apt update
-  apt install -y nginx
+    apt update
+    apt install -y nginx
 fi
 
 ufw allow "Nginx HTTP"
 echo "Hello World!" > /var/www/html/index.html
-sudo sed -i "/server_name _;/a \    location /redirect_me {\n        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n    }" /etc/nginx/sites-available/default
+service nginx start
 
-service nginx restart
+cp /etc/nginx/sites-available/default /etc/nginx/sites-available/temp
+
+awk '
+    {
+        if ($0 == "\tserver_name _;") {
+            print "\tserver_name _;"
+            print "location /redirect_me {"
+            print "\t\treturn 301 https://www.youtube.com/watch?v=QH2-TGUlwu4$request_uri;"
+            print "\t}"
+        } else {
+            print $0
+        }
+    }
+' /etc/nginx/sites-enabled/default > temp && mv temp /etc/nginx/sites-enabled/default
+
+nginx -s reload
