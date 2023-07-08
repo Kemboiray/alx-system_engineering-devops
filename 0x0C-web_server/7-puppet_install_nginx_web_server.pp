@@ -33,15 +33,15 @@ file { '/etc/nginx/sites-available/default_back_up':
 
 # Modify default Nginx configuration file
 file_line { 'add redirect':
-  path    => '/etc/nginx/sites-available/default',
-  line    => "\tlocation ~ /redirect_me[/]?$ {\n\t\treturn 301 https://www.youtube.com/watch?v=QH2-TGUlwu4$request_uri;\n\t}\n",
-  after   => '\tserver_name _;',
+  path  => '/etc/nginx/sites-available/default',
+  line  => "\tlocation ~ /redirect_me[/]?$ {\n\t\treturn 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n\t}\n",
+  after => '\tserver_name _;',
 }
 
 file_line { 'add custom error page':
-  path    => '/etc/nginx/sites-available/default',
-  line    => "\terror_page 404 /my_404.html;\n\tlocation = /my_404.html {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}",
-  after   => '\tserver_name _;',
+  path  => '/etc/nginx/sites-available/default',
+  line  => "\terror_page 404 /my_404.html;\n\tlocation = /my_404.html {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}",
+  after => '\tserver_name _;',
 }
 
 # Restart Nginx service to apply changes
@@ -50,4 +50,3 @@ service { 'nginx':
   enable    => true,
   subscribe => File['/etc/nginx/sites-available/default'],
 }
-
