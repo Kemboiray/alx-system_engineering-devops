@@ -1,52 +1,53 @@
-# Ensure Nginx is installed
-package { 'nginx':
-  ensure => present,
-}
+# Install and configure nginx
 
-# Allow HTTP traffic through the firewall
-exec { 'ufw allow "Nginx HTTP"':
-  path => '/usr/bin',
-}
+# Installation
+class nginx_setup {
+  package { 'nginx':
+    ensure => present,
+  }
 
-# Create index.html and custom 404 error page
-file { '/var/www/html/index.html':
-  ensure  => file,
-  content => 'Hello World!',
-}
+  service { 'nginx':
+    ensure  => running,
+    enable  => true,
+    require => Package['nginx'],
+  }
 
-file { '/var/www/html/my_404.html':
-  ensure  => file,
-  content => "Ceci n'est pas une page",
-}
+  file { '/var/www/html/index.html':
+    ensure  => file,
+    content => 'Hello World!',
+    require => Package['nginx'],
+  }
 
-# Start Nginx service
-service { 'nginx':
-  ensure => running,
-  enable => true,
-}
+  file { '/var/www/html/my_404.html':
+    ensure  => file,
+    content => "Ceci n'est pas une page",
+    require => Package['nginx'],
+  }
 
-# Create backup of default Nginx configuration file
-file { '/etc/nginx/sites-available/default_back_up':
-  ensure => present,
-  source => '/etc/nginx/sites-available/default',
-}
+  file_line { 'nginx_server_name':
+    path  => '/etc/nginx/sites-available/default',
+    line  => "\tserver_name _;",
+    match => "^\tserver_name _;",
+  }
 
-# Modify default Nginx configuration file
-file_line { 'add redirect':
-  path  => '/etc/nginx/sites-available/default',
-  line  => "\tlocation ~ /redirect_me[/]?$ {\n\t\treturn 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n\t}\n",
-  after => '\tserver_name _;',
-}
+  file_line { 'nginx_redirect':
+    path  => '/etc/nginx/sites-available/default',
+    line  => "\t\treturn 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;",
+    match => "^\t\treturn 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;",
+    after => "^\tserver_name _;",
+  }
 
-file_line { 'add custom error page':
-  path  => '/etc/nginx/sites-available/default',
-  line  => "\terror_page 404 /my_404.html;\n\tlocation = /my_404.html {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}",
-  after => '\tserver_name _;',
-}
+  file_line { 'nginx_error_page':
+    path  => '/etc/nginx/sites-available/default',
+    line  => "\terror_page 404 /my_404.html;",
+    match => "^\terror_page 404 /my_404.html;",
+    after => "^\t\treturn 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;",
+  }
 
-# Restart Nginx service to apply changes
-service { 'nginx':
-  ensure    => running,
-  enable    => true,
-  subscribe => File['/etc/nginx/sites-available/default'],
+  file_line { 'nginx_error_page_location':
+    path  => '/etc/nginx/sites-available/default',
+    line  => "\tlocation = /my_404.html {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}",
+    match => "^\tlocation = /my_404.html",
+    after => "^\terror_page 404 /my_404.html;",
+  }
 }
