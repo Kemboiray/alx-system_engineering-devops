@@ -5,4 +5,4 @@ sed -i '1s;^;user nginx\;\n;' /etc/nginx/nginx.conf
 sed -i 's/listen 80 default_server;/listen 8080 default_server;/' /etc/nginx/sites-available/default
 sed -i 's/listen \[::\]:8080 default_server ipv6only=on;/listen \[::\]:8080 default_server ipv6only=on;/' /etc/nginx/sites-available/default
 kill -9 "$(ps -e | pgrep apache2 | awk '{print $1}')"
-service nginx restart
+sudo -u nginx service nginx restart
