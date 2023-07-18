@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Setting up nginx user
+# Ensure that the nginx service is running as the nginx user
+sed -i 's/user .*/user nginx;/' /etc/nginx/nginx.conf
+
+# Ensure that nginx is listening on all active IPs on port 8080
+sed -i 's/listen .*/listen 8080;/' /etc/nginx/sites-available/default
+
+# Restart the nginx service to apply the changes
+service nginx restart
