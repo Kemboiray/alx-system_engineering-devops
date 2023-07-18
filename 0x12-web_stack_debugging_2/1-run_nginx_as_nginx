@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
-# Setting up nginx user
-# Ensure that the nginx service is running as the nginx user
-sed -i 's/user .*/user nginx;/' /etc/nginx/nginx.conf
-
-# Ensure that nginx is listening on all active IPs on port 8080
-sed -i 's/listen .*/listen 8080;/' /etc/nginx/sites-available/default
-
-# Restart the nginx service to apply the changes
+# Set up non root user of nginx
+service nginx start
+sed -i '1s;^;user nginx\;\n;' /etc/nginx/nginx.conf
+sed -i 's/listen 80 default_server;/listen 8080 default_server;/' /etc/nginx/sites-available/default
+sed -i 's/listen \[::\]:8080 default_server ipv6only=on;/listen \[::\]:8080 default_server ipv6only=on;/' /etc/nginx/sites-available/default
+kill -9 "$(ps -e | pgrep apache2 | awk '{print $1}')"
 service nginx restart
