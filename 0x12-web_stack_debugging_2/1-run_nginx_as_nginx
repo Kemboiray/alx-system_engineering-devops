@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # Set up non root user of nginx
-service nginx start
-sed 's/^#*.*user.*;$/user nginx;/' /etc/nginx/nginx.conf
+sed -i 's/^#*.*user.*;$/user nginx;/' /etc/nginx/nginx.conf
 sed -i 's/listen 80/listen 8080/' /etc/nginx/sites-available/default
 pkill apache2
 service nginx restart
