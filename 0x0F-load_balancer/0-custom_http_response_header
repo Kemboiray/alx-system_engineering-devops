@@ -17,6 +17,7 @@ awk '
     {
         if ($0 == "\tserver_name _;") {
             print "\tserver_name _;"
+			print "\tadd_header X-Served-By \"HOSTNAME\";"
             print "\tlocation ~ /redirect_me[/]?$ {"
             print "\t\treturn 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;"
             print "\t}\n"
@@ -31,16 +32,16 @@ awk '
     }
 ' /etc/nginx/sites-available/default > temp && mv temp /etc/nginx/sites-available/default
 
-awk '
-    {
-		if ($0 == "\t\ttry_files \$uri \$uri/ =404;") {
-			print "\t\tadd_header X-Served-By \"HOSTNAME\";"
-			print $0
-		} else {
-		    print $0
-		}
-    }
-' /etc/nginx/sites-available/default > temp && mv temp /etc/nginx/sites-available/default
+# awk '
+# 	{
+# 		if ($0 == "\t\ttry_files \$uri \$uri/ =404;") {
+# 			print "\t\tadd_header X-Served-By \"HOSTNAME\";"
+# 			print $0
+# 		} else {
+# 			print $0
+# 		}
+# 	}
+# ' /etc/nginx/sites-available/default > temp && mv temp /etc/nginx/sites-available/default
 
 sed -i "s/HOSTNAME/$HOSTNAME/" /etc/nginx/sites-available/default
 
