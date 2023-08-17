@@ -16,4 +16,5 @@ backend http_back
 	server 172649-web-01 54.237.68.149:80 check
 	server 172649-web-02 54.160.76.194:80 check
 ' >> /etc/haproxy/haproxy.cfg
+sudo sed -i 's/ENABLED=0/ENABLED=1/' /etc/default/haproxy
 sudo service haproxy restart
